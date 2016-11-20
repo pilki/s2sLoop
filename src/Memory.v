@@ -175,7 +175,7 @@ Module BMem(N:NUMERICAL) <: BASEMEM(N).
 
   Lemma valid_cell_equiv: Equivalence eqA_valid_cell.
   Proof.
-    prove_equiv; intuition congruence.
+    prove_equiv; dintuition congruence.
   Qed.
 
   Instance EqA_mt : EqA valid_cell:=
@@ -466,7 +466,7 @@ Module MEMORY (N:NUMERICAL) (BM: BASEMEM(N)).
       dest ci == ci1; dest ci == ci2; repeat (progress subst); auto;
         push_read_up; eauto with memory.
 
-    Case "Some mem1'"; SCase "@None". 
+    Case "Some mem1'"; SCase "None". 
     simpl.
     get_all_mem_layouts.
     prog_match_option; auto.
@@ -475,7 +475,7 @@ Module MEMORY (N:NUMERICAL) (BM: BASEMEM(N)).
     eapply (write_same_layout mem mem2) in H1.
     rewrite Heqomem2 in H1. auto. etransitivity; eauto.
 
-    Case "@None"; SCase "Some mem2'". 
+    Case "None"; SCase "Some mem2'". 
     simpl.
     get_all_mem_layouts.
     case_eq (write mem2' ci1 v1); intros; auto.

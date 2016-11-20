@@ -150,7 +150,7 @@ Proof.
   elimtype False.
   pose proof (ceild_prop n d').
   simpl in H.
-  apply (Zmult_gt_compat_r _ _ (Zpos d')) in z; try reflexivity.
+  apply (Zmult_gt_compat_r _ _ (Zpos d')) in g; try reflexivity.
   destruct H.
 
   assert (x = ceild n d'). apply ceild_unique. lia. subst. lia.
@@ -200,7 +200,7 @@ Proof.
   elimtype False.
   pose proof (floord_prop n d').
   simpl in H.
-  apply (Zmult_gt_compat_r _ _ (Zpos d')) in z; try reflexivity.
+  apply (Zmult_gt_compat_r _ _ (Zpos d')) in g; try reflexivity.
   destruct H.
 
   assert (x = floord n d'). apply floord_unique. lia. subst. lia.

@@ -138,14 +138,14 @@ Module Tilling (Import M:BASEMEM(ZNum))
      remember_no_eq (bp_elts bpol params) as vs.
      clear -H vs.
      induction' vs as [|v vs].
-     Case "@nil".
+     Case "nil".
        constructor.
      Case "cons v vs".
        inv H. constructor; auto.
        intro. apply H2.
        clear' - H.
        induction' vs as [|v' vs].
-       SCase "@nil".
+       SCase "nil".
          inv H.
        SCase "cons v' vs".
          destruct' H; auto.
@@ -290,7 +290,7 @@ Module Tilling (Import M:BASEMEM(ZNum))
         unfold Vnth at 1. simpl.
         revert n INF.
         induction' tc as [|[p m] tc]; intros; simpl in *.
-        SCase "@nil".
+        SCase "nil".
           omegaContradiction.
         SCase "cons (p, m) tc".
           destruct n as [|n].

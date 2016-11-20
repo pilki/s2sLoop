@@ -1,0 +1,7 @@
+*~
+*.vo
+.*.aux
+.depend
+.DS_Store
+.lia.cache
+_build

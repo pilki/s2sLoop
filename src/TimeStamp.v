@@ -57,7 +57,7 @@ Lemma time_stamp_0_trichotomy (ts: Time_Stamp):
   {time_stamp_lt_0 ts}+{time_stamp_all_0 ts}+{time_stamp_gt_0 ts}.
 Proof.
   induction' ts as [|z ts].
-  Case "@nil".
+  Case "nil".
     auto with timestamp.
   Case "cons z ts".
     destruct (Ztrichotomy_inf z 0) as [[?|?]|?]; subst; auto with timestamp.
@@ -101,8 +101,8 @@ Add Parametric Morphism : time_stamp_eq with
 Proof.
   intros.
   split; intros.
-    symmetry in H. repeat intuition (etransitivity; eauto with timestamp).
-    symmetry in H0. repeat intuition (etransitivity; eauto with timestamp).
+    symmetry in H. repeat dintuition (etransitivity; eauto with timestamp).
+    symmetry in H0. repeat dintuition (etransitivity; eauto with timestamp).
 Qed.
   
 Add Parametric Morphism : time_stamp_all_0 with 
@@ -170,12 +170,12 @@ Lemma time_stamp_lt_trichotomy: forall (ts1 ts2: Time_Stamp),
   {time_stamp_lt ts1 ts2} + {time_stamp_eq ts1 ts2} + {time_stamp_lt ts2 ts1}.
 Proof.
   induction' ts1 as [|z1 ts1].
-  Case "@nil".
+  Case "nil".
     intro ts2.
     destruct (time_stamp_0_trichotomy ts2) as [[|]|]; auto with timestamp.
   Case "cons z1 ts1".
     intros ts2; destruct' ts2 as [|z2 ts2].
-    SCase "@nil".
+    SCase "nil".
       destruct (Ztrichotomy_inf 0 z1) as [[|]|]; subst; auto 6 with timestamp.
       destruct (time_stamp_0_trichotomy ts1) as [[|]|]; auto with timestamp.
     SCase "cons z2 ts2".

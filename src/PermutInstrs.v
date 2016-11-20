@@ -167,7 +167,7 @@ Module Permut (Import M:BASEMEM(ZNum))
         ip2ts_list_semantics ip2tsl mem1' mem2'.
   Proof.
     induction' ip2tsl as [|ip2ts ip2tsl].
-    Case "@nil".
+    Case "nil".
       intros. inv H. exists mem1'; split; auto. constructor.
     Case "cons ip2ts ip2tsl".
       intros * SEM * EQ.
@@ -188,7 +188,7 @@ Module Permut (Import M:BASEMEM(ZNum))
       ip2ts_list_semantics (ip2ts::ip2tsl) mem1' mem2').
   Proof.
      induction' ip2tsl as [|ip2ts' ip2tsl]; intros FORALL * SEM * EQUIV; simpl in *.
-     Case "@nil".
+     Case "nil".
        inv SEM. inv H4.
        edestruct instruction_point_semantics_equiv as [mem2' [? ?]]; eauto.
        exists mem2'; split; auto. econstructor; eauto. constructor.
@@ -214,7 +214,7 @@ Module Permut (Import M:BASEMEM(ZNum))
       ip2ts_list_semantics (ip2tsl ++ [ip2ts]) mem1' mem2').
   Proof.
      induction' ip2tsl as [|ip2ts' ip2tsl]; intros FORALL * SEM * EQUIV; simpl in *.
-     Case "@nil".
+     Case "nil".
        inv SEM. inv H4.
        edestruct instruction_point_semantics_equiv as [mem2' [? ?]]; eauto.
        exists mem2'; split; auto. econstructor; eauto. constructor.
@@ -253,7 +253,7 @@ Module Permut (Import M:BASEMEM(ZNum))
         ip2ts_list_semantics ipl2 mem2 mem3).
   Proof.
     induction' ipl1 as [|ip1 ipl1]; intros; simpl in *.
-    Case "@nil".
+    Case "nil".
       exists mem1; split; auto. constructor.
     Case "cons ip1 ipl1".
       inv H.
@@ -300,7 +300,7 @@ Module Permut (Import M:BASEMEM(ZNum))
     revert ipl2.
     induction' ipl1 as [|ip1 ipl1]; 
       intros * PERM SORTED1 SORTED2 SWAP * SEM * EQ.
-    Case "@nil".
+    Case "nil".
       inv SEM. clean.
       exists mem1'; split; auto. constructor.
     Case "cons ip1 ipl1".
@@ -855,20 +855,20 @@ Hint Constructors time_stamp_lt_0 time_stamp_gt_0.
     induction' sched1 as [|vs1 sched1]; intros *;
       destruct' sched2 as [|vs2 sched2];
       split'; first [intros [IN TSL]||intro EX].
-    Case "@nil"; SCase "@nil"; SSCase "->".
+    Case "nil"; SCase "nil"; SSCase "->".
       inv TSL; inv H.
-    Case "@nil"; SCase "@nil"; SSCase "<-".
+    Case "nil"; SCase "nil"; SSCase "<-".
       inv EX.
-    Case "@nil"; SCase "cons vs2 sched2"; SSCase "->".
+    Case "nil"; SCase "cons vs2 sched2"; SSCase "->".
       unfold make_poly_lt. rewrite <- make_poly_gt0_r_correct.
       inv TSL. split; auto.
-    Case "@nil"; SCase "cons vs2 sched2"; SSCase "<-".
+    Case "nil"; SCase "cons vs2 sched2"; SSCase "<-".
       unfold make_poly_lt in EX. rewrite <- make_poly_gt0_r_correct in EX.
       destruct EX; split; auto.
-    Case "cons vs1 sched1"; SCase "@nil"; SSCase "->".
+    Case "cons vs1 sched1"; SCase "nil"; SSCase "->".
       unfold make_poly_lt. rewrite <- make_poly_lt0_l_correct.
       inv TSL. split; auto.
-    Case "cons vs1 sched1"; SCase "@nil"; SSCase "<-". 
+    Case "cons vs1 sched1"; SCase "nil"; SSCase "<-". 
       unfold make_poly_lt in EX. rewrite <- make_poly_lt0_l_correct in EX.
       destruct EX; split; auto.
     Case "cons vs1 sched1"; SCase "cons vs2 sched2"; SSCase "->".
@@ -930,20 +930,20 @@ Hint Constructors time_stamp_lt_0 time_stamp_gt_0.
     induction' sched1 as [|vs1 sched1]; intros *;
       destruct' sched2 as [|vs2 sched2];
       split'; first [intros [IN TSL]||intro EX].
-    Case "@nil"; SCase "@nil"; SSCase "->".
+    Case "nil"; SCase "nil"; SSCase "->".
       inv TSL; inv H.
-    Case "@nil"; SCase "@nil"; SSCase "<-".
+    Case "nil"; SCase "nil"; SSCase "<-".
       inv EX.
-    Case "@nil"; SCase "cons vs2 sched2"; SSCase "->".
+    Case "nil"; SCase "cons vs2 sched2"; SSCase "->".
       unfold make_poly_gt. rewrite <- make_poly_lt0_r_correct.
       inv TSL. split; auto.
-    Case "@nil"; SCase "cons vs2 sched2"; SSCase "<-".
+    Case "nil"; SCase "cons vs2 sched2"; SSCase "<-".
       unfold make_poly_gt in EX. rewrite <- make_poly_lt0_r_correct in EX.
       destruct EX; split; auto.
-    Case "cons vs1 sched1"; SCase "@nil"; SSCase "->".
+    Case "cons vs1 sched1"; SCase "nil"; SSCase "->".
       unfold make_poly_gt. rewrite <- make_poly_gt0_l_correct.
       inv TSL. split; auto.
-    Case "cons vs1 sched1"; SCase "@nil"; SSCase "<-". 
+    Case "cons vs1 sched1"; SCase "nil"; SSCase "<-". 
       unfold make_poly_gt in EX. rewrite <- make_poly_gt0_l_correct in EX.
       destruct EX; split; auto.
     Case "cons vs1 sched1"; SCase "cons vs2 sched2"; SSCase "->".
@@ -999,7 +999,7 @@ Hint Constructors time_stamp_lt_0 time_stamp_gt_0.
   Proof.
     induction' sched1 as [|vs1 sched1];[|destruct IHsched1]; intros *; split';
       first [intros [IN ALL0]|| intros INMK]; auto.
-    Case "@nil"; SCase "<-".
+    Case "nil"; SCase "<-".
       simpl in INMK. split; auto.
       simpl. constructor.
     Case "cons vs1 sched1"; SCase "->".
@@ -1038,7 +1038,7 @@ Hint Constructors time_stamp_lt_0 time_stamp_gt_0.
   Proof.
     induction' sched2 as [|vs2 sched2];[|destruct IHsched2]; intros *; split';
       first [intros [IN ALL0]|| intros INMK]; auto.
-    Case "@nil"; SCase "<-".
+    Case "nil"; SCase "<-".
       simpl in INMK. split; auto.
       simpl. constructor.
     Case "cons vs2 sched2"; SCase "->".
@@ -1083,18 +1083,18 @@ Hint Constructors time_stamp_lt_0 time_stamp_gt_0.
     induction' sched1 as [|vs1 sched1]; intros *;
       destruct' sched2 as [|vs2 sched2];
         split'; first [intros [IN TSL]||intro EX]; auto.
-    Case "@nil"; SCase "@nil"; SSCase "<-".
+    Case "nil"; SCase "nil"; SSCase "<-".
       simpl in *; split; auto. constructor. constructor.
-    Case "@nil"; SCase "cons vs2 sched2"; SSCase "->".
+    Case "nil"; SCase "cons vs2 sched2"; SSCase "->".
       unfold make_poly_eq. rewrite <- make_poly_all0_r_correct.
       inv TSL. split; auto.
-    Case "@nil"; SCase "cons vs2 sched2"; SSCase "<-". 
+    Case "nil"; SCase "cons vs2 sched2"; SSCase "<-". 
       unfold make_poly_eq in EX. rewrite <- make_poly_all0_r_correct in EX.
       inv EX; split; simpl; auto.
-    Case "cons vs1 sched1"; SCase "@nil"; SSCase "->".
+    Case "cons vs1 sched1"; SCase "nil"; SSCase "->".
       unfold make_poly_eq. rewrite <- make_poly_all0_l_correct.
       inv TSL. split; auto.
-    Case "cons vs1 sched1"; SCase "@nil"; SSCase "<-". 
+    Case "cons vs1 sched1"; SCase "nil"; SSCase "<-". 
       unfold make_poly_eq in EX. rewrite <- make_poly_all0_l_correct in EX.
       inv EX; split; simpl; auto.
     Case "cons vs1 sched1"; SCase "cons vs2 sched2"; SSCase "->".
@@ -1242,7 +1242,7 @@ Hint Constructors time_stamp_lt_0 time_stamp_gt_0.
         revert dependent loc2. revert sameloc.
         induction' loc1 as [|l1 loc1]; intros; destruct' loc2 as [|l2 loc2]; simpl in *;
           clean.
-        SSCase "@nil"; S3Case "@nil".
+        SSCase "nil"; S3Case "nil".
           constructor.
         SSCase "cons l1 loc1"; S3Case "cons l2 loc2".
           prog_dos. inv H0.
@@ -1260,7 +1260,7 @@ Hint Constructors time_stamp_lt_0 time_stamp_gt_0.
       end;clean.
       revert EXLT l.
       induction' pols_lt as [|pol_lt pols_lt]; intros.
-      SCase "@nil".
+      SCase "nil".
         inv EXLT.
       SCase "cons pol_lt pols_lt".
         inv l.
@@ -1268,7 +1268,7 @@ Hint Constructors time_stamp_lt_0 time_stamp_gt_0.
         SSCase "Exists_cons_hd".
           clear' - EXGE H1 IN H0 INSAME.
           induction' pols_ge as [| pol_ge pols_ge]; clean.
-          S3Case "@nil".
+          S3Case "nil".
             inv EXGE.
           S3Case "cons pol_ge pols_ge".
             inv H1. inv' EXGE; eauto.
@@ -1489,7 +1489,7 @@ Opaque validate_one_loc.
       rewrite pi2_rlocs_eq in *. rewrite pi2_wloc_eq in *.
       remember_no_eq (I.read_locs (pi2_instr pi2)) as rlocs.
       induction' rlocs as [| rloc rlocs].
-      SCase "@nil".
+      SCase "nil".
         constructor.
       SCase "cons rloc rlocs".
         simpl in Heq_do0.
@@ -1510,7 +1510,7 @@ Opaque validate_one_loc.
       rewrite pi2_rlocs_eq in *. rewrite pi2_wloc_eq in *.
       remember_no_eq (I.read_locs (pi2_instr pi1)) as rlocs.
       induction' rlocs as [| rloc rlocs].
-      SCase "@nil".
+      SCase "nil".
         constructor.
       SCase "cons rloc rlocs".
         simpl in VALIDATE.
@@ -1643,7 +1643,7 @@ Opaque validate_one_loc.
     pose proof (IP2Sort.LocallySorted_sort lip).
     remember_no_eq (IP2Sort.sort lip) as lip'. clear lip.
     induction' lip' as [|ip lip].
-    Case "@nil".
+    Case "nil".
       constructor.
       inv H.
       constructor; auto.

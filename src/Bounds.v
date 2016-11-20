@@ -361,7 +361,7 @@ Section GLOBALDEPTH.
       revert dependent tl_l.
       revert dependent tl_lb.
       induction' tl_lb as [|hd tl]; simpl in *; intros; clean; auto.
-      SCase "@nil".
+      SCase "nil".
         inv H3. constructor.
       SCase "cons hd tl".
         inv H3. inv H4. clean.
@@ -462,7 +462,7 @@ Section GLOBALDEPTH.
       revert dependent tl_l.
       revert dependent tl_ub.
       induction' tl_ub as [|hd tl]; simpl in *; intros; clean; auto.
-      SCase "@nil".
+      SCase "nil".
         inv H3. constructor.
       SCase "cons hd tl".
         inv H3. inv H4. clean.

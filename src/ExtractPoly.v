@@ -101,7 +101,7 @@ Module Extract (Import M:BASEMEM(ZNum))
     cast_list EQnp l = map (cast_A EQnp) l.
   Proof.
     induction' l as [|a l].
-    Case "@nil".
+    Case "nil".
       destruct EQnp. reflexivity.
     Case "cons a l".
       simpl.
@@ -181,7 +181,7 @@ Module Extract (Import M:BASEMEM(ZNum))
     rewrite cast_poly_cast_constr.
     unfold Pol_In.
     induction' pol as [|constr pol]; simpl; intros; auto.
-    Case "@nil".
+    Case "nil".
       split; intros; constructor.
     Case "cons constr pol".
     destruct IHpol.
@@ -457,7 +457,7 @@ Module Extract (Import M:BASEMEM(ZNum))
   Proof.
     intros * INJ.
     induction' l as [|a l]; simpl; intros NO.
-    Case "@nil".
+    Case "nil".
       constructor.
     Case "cons a l".
       inv NO.
@@ -470,7 +470,7 @@ Module Extract (Import M:BASEMEM(ZNum))
     In x (flatten ll) <-> exists l, In l ll /\ In x l.
   Proof.
     induction' ll as [| l1 ll]; simpl.
-    Case "@nil".
+    Case "nil".
       split'; auto.
       SCase "<-".
         intros [?[? ?]]; auto.
@@ -511,9 +511,9 @@ Module Extract (Import M:BASEMEM(ZNum))
   Proof.
     revert l2; induction' l1 as [| a1 l1]; intros l2 EQ;
     destruct' l2 as [|a2 l2]; simpl in *; auto.
-    Case "@nil"; SCase "cons a2 l2". 
+    Case "nil"; SCase "cons a2 l2". 
       inv EQ. destruct l2; inv H1.
-    Case "cons a1 l1"; SCase "@nil".
+    Case "cons a1 l1"; SCase "nil".
       inv EQ; destruct l1; simpl in *; congruence.
     Case "cons a1 l1"; SCase "cons a2 l2".
       inv EQ; f_equal; auto.
@@ -557,7 +557,7 @@ Module Extract (Import M:BASEMEM(ZNum))
       reflexivity.
     Case "S n".
       destruct' v.
-      SCase "@nil".
+      SCase "nil".
         simpl. f_equal. apply repeat_length.
       SCase "cons".
         simpl. f_equal. auto.
@@ -885,7 +885,7 @@ Module Extract (Import M:BASEMEM(ZNum))
   Proof.
     intro l1.
     induction' l1 as [|i l1]; intros * INSTR; simpl in *.
-    Case "@nil".
+    Case "nil".
       exists mem1. split; auto. constructor.
     Case "cons i l1".
       inv INSTR.
@@ -901,7 +901,7 @@ Module Extract (Import M:BASEMEM(ZNum))
   Proof.
     intro l1; induction' l1 as [|i1 l1]; intros * INSTRSEM1 INSTRSEM2;
       simpl in *.
-    Case "@nil".
+    Case "nil".
       inv INSTRSEM1; auto.
     Case "cons i1 l1".
       inv INSTRSEM1; econstructor; eauto.
@@ -1365,7 +1365,7 @@ Module Extract (Import M:BASEMEM(ZNum))
               inv H.
               constructor; auto.
               destruct' fst_part as [|ip2 fst_part]; simpl.
-              S5Case "@nil".
+              S5Case "nil".
                 destruct' snd_part as [|ip2 snd_part]; simpl; auto.
                 S6Case "cons ip2 snd_part".
                   constructor.
@@ -1387,7 +1387,7 @@ Module Extract (Import M:BASEMEM(ZNum))
             eapply foo; eauto.
             clear'.
             induction' lpi as [|pi lpi].
-            S4Case "@nil".
+            S4Case "nil".
               simpl. reflexivity.
             S4Case "cons pi lpi".
               simpl. rewrite IHlpi.
@@ -1448,7 +1448,7 @@ Module Extract (Import M:BASEMEM(ZNum))
     Case "extract_statement_list_ok".
       revert instrs_lst pos.
       destruct' st_lst as [|st st_lst]; intros * EXTRACT * SEM; inv SEM; clean.
-      SCase "@stl_nil".
+      SCase "stl_nil".
         repeat econstructor.
       SCase "stl_cons st st_lst".
         simpl in EXTRACT.
@@ -1490,7 +1490,7 @@ Module Extract (Import M:BASEMEM(ZNum))
       destruct H0 as [? [? ?]].
       econstructor; simpl; eauto.
 
-    Case "@None".
+    Case "None".
     inv PROGSEM. rewrite H0 in Heqo. clean.
   Qed.
 

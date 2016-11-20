@@ -130,7 +130,7 @@ Hint Unfold Pol_Included: autounfold.
 
 Instance Pol_Included_PreOrder: PreOrder Pol_Included.
 Proof.
-  constructor; red; unfold*; intuition.
+  constructor; red; unfold*; dintuition.
 Qed.
 
 (* the definition of partial order is absurd, so we don't define an instance *)  
@@ -393,7 +393,7 @@ Hint Rewrite cons_not_nil nil_not_cons: clean.
 Lemma list_forall_to_inv: forall A P (a:A) l,
   tag_to_inv (list_forall P (a :: l)).
 Proof.
-  intuition.
+  dintuition.
 Qed.
 Hint Rewrite list_forall_to_inv: optional_inv.
 
@@ -606,7 +606,7 @@ Lemma Constr_translate_l_correct n p (c: Constraint n) v1 v2:
 Proof.
   destruct c.
   unfold satisfy_constraint. simpl.
-  rewrite concat_Vprod. rewrite Vprod_V0_l. simpl_vect. intuition.
+  rewrite concat_Vprod. rewrite Vprod_V0_l. simpl_vect. dintuition.
 Qed.
 
 
@@ -621,7 +621,7 @@ Lemma Constr_translate_r_correct n p (c: Constraint n) v1 v2:
 Proof.
   destruct c.
   unfold satisfy_constraint. simpl.
-  rewrite concat_Vprod. rewrite Vprod_V0_l. simpl_vect. intuition.
+  rewrite concat_Vprod. rewrite Vprod_V0_l. simpl_vect. dintuition.
 Qed.
 
 Hint Resolve Constr_translate_l_correct Constr_translate_r_correct: pol.

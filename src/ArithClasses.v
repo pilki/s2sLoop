@@ -1,7 +1,10 @@
+Add LoadPath "../from_compcert".
 Require Import Coqlibext.
 Require Import Psatz.
 Require Import Libs.
 Require Import CeildFloord.
+Require Import Coq.Relations.Relation_Definitions.
+Require Import Coq.Classes.RelationClasses.
 Set Implicit Arguments.
 (* we define a very simpl class that subsumes Z and int. We could
    probably do way better, but that should be enough for our purpose
@@ -202,7 +205,7 @@ Section WITHA.
   Proof.
     induction' l; simpl in *; intros.
 
-    Case "@nil".
+    Case "nil".
     reflexivity.
 
     Case "cons".
@@ -214,8 +217,8 @@ Section WITHA.
   Proof.
     induction' l; simpl.
 
-    Case "@nil".
-    intuition.
+    Case "nil".
+    dintuition.
 
     Case "cons".
     intros * LE.
@@ -237,7 +240,7 @@ Section WITHA.
 
     destruct l as [a l]. unfold Amin_list. simpl.
     induction' l.
-    Case "@nil".
+    Case "nil".
     constructor.
 
     Case "cons".
@@ -262,7 +265,7 @@ Section WITHA.
     revert dependent a. revert H3.
     induction' l; intros LFA * LEQ; simpl.
 
-    Case "@nil".
+    Case "nil".
     assumption.
 
     Case "cons".
@@ -279,7 +282,7 @@ Section WITHA.
     unfold Amin_list.
     simpl. revert a.
     induction' l as [| a' l'].
-    Case "@nil".
+    Case "nil".
       simpl. intros a. auto.
 
     Case "cons a' l'".
@@ -297,7 +300,7 @@ Section WITHA.
   Proof.
     induction' l; simpl in *; intros.
 
-    Case "@nil".
+    Case "nil".
     reflexivity.
 
     Case "cons".
@@ -310,8 +313,8 @@ Section WITHA.
   Proof.
     induction' l as [|a l']; simpl.
 
-    Case "@nil".
-    intuition.
+    Case "nil".
+    dintuition.
 
     Case "cons a l'".
     intros * LE.
@@ -335,7 +338,7 @@ Section WITHA.
     apply fold_left_Amax_ge.
 
     induction' l.
-    Case "@nil".
+    Case "nil".
     constructor.
 
     Case "cons".
@@ -362,7 +365,7 @@ Section WITHA.
     simpl.
     induction' l; intros LFA * LEQ; simpl.
 
-    Case "@nil".
+    Case "nil".
     assumption.
 
     Case "cons".
@@ -379,7 +382,7 @@ Section WITHA.
     unfold Amax_list.
     simpl. revert a.
     induction' l as [| a' l'].
-    Case "@nil".
+    Case "nil".
       simpl. intros a. auto.
 
     Case "cons a' l'".
@@ -437,29 +440,25 @@ Instance Numerical_Z: Numerical Z :=
   Aceild := ceildZ;
   Afloord := floordZ}.
 Proof.
-  intros; lia.
-  intros; lia.
-  intros; lia.
-  intros; lia.
-  intros; lia.
-  intros; lia.
-  intros; lia.
-  intros; lia.
-  intros; lia.
-  intros; lia.
-  intros; lia.
-  intros; lia.
-  apply Z_le_dec.
-  repeat constructor.
-    unfold Reflexive. intros; lia.
-    unfold Transitive; intros; lia.
-  intros; lia.
-  intros; lia.
-  apply Zmin_comm.
-  apply Zmin_l.
-  apply Zmax_comm.
-  apply Zmax_r.
-  auto with typeclass_instances.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - apply Z_le_dec.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
+  - intros; lia.
 Defined.
 
 
@@ -558,8 +557,6 @@ Proof.
   intros.
   repeat match goal with | |- context[if ?cond then _ else _] => destruct cond end;
   auto. contradiction.
-
-  auto with typeclass_instances.
 Defined.
 
 
@@ -1105,7 +1102,7 @@ Next Obligation.
     simpl. reflexivity.
   Case "S n'".
     simpl. destruct' vect.
-    SCase "@nil".
+    SCase "nil".
       inv Lvect.
     SCase "cons".
       simpl in *.
@@ -1125,7 +1122,7 @@ Next Obligation.
     simpl in *. assumption.
   Case "S n'".
     destruct' vect.
-    SCase "@nil".
+    SCase "nil".
       inv Lvect.
     SCase "cons".
       inv Lvect.
@@ -1294,7 +1291,7 @@ Proof.
   intros *.
   dest_vects. subst. revert i.
   induction' v1 as [|x v1]; intros i INF.
-  Case "@nil".
+  Case "nil".
     simpl in INF. inv INF.
   Case "cons x v1".
     simpl.
