@@ -1,3 +1,5 @@
+Add LoadPath "../from_compcert".
+
 Require Import AST.
 Require Import Memory.
 (*Require Import Values.*)
@@ -207,7 +209,7 @@ Section GLOBALDEPTH.
     remember (hd:: tl) as l. clear Heql hd tl.
     induction l; intros; auto.
     inv H1. inv H.
-    constructor'; eauto using @ge_bound_constraint_trans.
+    constructor; eauto using @ge_bound_constraint_trans.
   Qed.
 
   Definition le_bound (ctxt: Context nbr_params)
@@ -226,7 +228,7 @@ Section GLOBALDEPTH.
     remember (hd:: tl) as l. clear Heql hd tl.
     induction l; intros; auto.
     inv H1. inv H.
-    constructor'; eauto using @le_bound_constraint_trans.
+    constructor; eauto using @le_bound_constraint_trans.
   Qed.
 
   (* to lib *)
@@ -261,22 +263,22 @@ Section GLOBALDEPTH.
 
     remember (Amax_list (hd_l, tl_l)) as amax. clear Heqamax.
     inv H.
-    constructor'.
-    NCase "head".
+    constructor.
+    Case "head".
       unfold ge_bound_constraint. destruct hd_lb. simpl.
       eapply ceildZ_bound2; eauto.
-    NCase "tail".
+    Case "tail".
       clear dependent hd_l.
       revert dependent tl_l.
       revert dependent tl_lb.
       induction' tl_lb as [|hd tl]; simpl; intros; clean; auto.
       SCase "cons hd tl".
         inv H3. inv H5. clean.
-        constructor'.
-        NSSCase "head".
+        constructor.
+        SSCase "head".
           unfold ge_bound_constraint. destruct hd. simpl.
           eapply ceildZ_bound2; eauto.
-        NSSCase "tl".
+        SSCase "tl".
           eapply IHtl; eauto.
   Qed.
 
@@ -292,15 +294,15 @@ Section GLOBALDEPTH.
     apply not_empty_mmap_option in Heq_do.
     destruct lower_bound. destruct l. simpl in *.
     inv Heq_do.
-    constructor'.
-    NCase "head".
+    constructor.
+    Case "head".
       destruct p; simpl in *. clean.
       unfold ceildZ in H2; destruct n0; clean.
-    NCase "tail".
+    Case "tail".
       revert dependent l. clear H2.
       induction' l0; intros; eauto.
       simpl in *. inv H4.
-      constructor'; eauto.
+      constructor; eauto.
       destruct a; simpl in *; clean; unfold ceildZ in *. destruct n0; clean.
   Qed.
 
@@ -317,7 +319,7 @@ Section GLOBALDEPTH.
         assert (is_some (not_empty_mmap f l))
     end.
       apply not_empty_mmap_is_some.
-      eapply list_forall_imply; eauto.
+      eapply list_forall_imply; [|eauto].
       intros. simpl.
       destruct a as ([|?|?],?); simpl in *; auto; compute in H0; inv H0.
     inv H0. simpl.
@@ -350,12 +352,12 @@ Section GLOBALDEPTH.
     clear GAGAL.
     inv LFL.
 
-    constructor'.
-    NCase "head".
+    constructor.
+    Case "head".
       unfold ge_bound_constraint in H1.
       destruct hd_lb. simpl in *.
       eapply ceildZ_bound1 in H1; eauto.
-    NCase "tail".
+    Case "tail".
       simpl.
       clear dependent hd_l. clear dependent hd_lb.
       revert dependent tl_l.
@@ -365,12 +367,12 @@ Section GLOBALDEPTH.
         inv H3. constructor.
       SCase "cons hd tl".
         inv H3. inv H4. clean.
-        constructor'.
-        NSSCase "head".
+        constructor.
+        SSCase "head".
           unfold ge_bound_constraint in H1.
           destruct hd. simpl in *.
           eapply ceildZ_bound1 in H1; eauto.
-        NSSCase "tail".
+        SSCase "tail".
           eapply IHtl; eauto.
   Qed.
 
@@ -412,22 +414,22 @@ Section GLOBALDEPTH.
 
     remember (Amin_list (hd_l, tl_l)) as amin. clear Heqamin.
     inv H.
-    constructor'.
-    NCase "head".
+    constructor.
+    Case "head".
       unfold le_bound_constraint. destruct hd_ub. simpl.
       eapply floordZ_bound2; eauto.
-    NCase "tail".
+    Case "tail".
       clear dependent hd_l.
       revert dependent tl_l.
       revert dependent tl_ub.
       induction' tl_ub as [|hd tl]; simpl; intros; clean; auto.
       SCase "cons hd tl".
         inv H3. inv H5. clean.
-        constructor'.
-        NSSCase "head".
+        constructor.
+        SSCase "head".
           unfold le_bound_constraint. destruct hd. simpl.
           eapply floordZ_bound2; eauto.
-        NSSCase "tl".
+        SSCase "tl".
           eapply IHtl; eauto.
   Qed.
 
@@ -451,12 +453,12 @@ Section GLOBALDEPTH.
     clear LALAL.
     inv LFL.
 
-    constructor'.
-    NCase "head".
+    constructor.
+    Case "head".
       unfold le_bound_constraint in H1.
       destruct hd_ub. simpl in *.
       eapply floordZ_bound1 in H1; eauto.
-    NCase "tail".
+    Case "tail".
       simpl.
       clear dependent hd_l. clear dependent hd_ub.
       revert dependent tl_l.
@@ -466,12 +468,12 @@ Section GLOBALDEPTH.
         inv H3. constructor.
       SCase "cons hd tl".
         inv H3. inv H4. clean.
-        constructor'.
-        NSSCase "head".
+        constructor.
+        SSCase "head".
           unfold le_bound_constraint in H1.
           destruct hd. simpl in *.
           eapply floordZ_bound1 in H1; eauto.
-        NSSCase "tail".
+        SSCase "tail".
           eapply IHtl; eauto.
   Qed.
 
@@ -487,15 +489,15 @@ Section GLOBALDEPTH.
     apply not_empty_mmap_option in Heq_do.
     destruct upper_bound. destruct l. simpl in *.
     inv Heq_do.
-    constructor'.
-    NCase "head".
+    constructor.
+    Case "head".
       destruct p; simpl in *. clean.
       unfold floordZ in H2; destruct n0; clean.
-    NCase "tail".
+    Case "tail".
       revert dependent l. clear H2.
       induction' l0; intros; eauto.
       simpl in *. inv H4.
-      constructor'; eauto.
+      constructor; eauto.
       destruct a; simpl in *; clean; unfold floordZ in *. destruct n0; clean.
   Qed.
 
@@ -512,7 +514,7 @@ Section GLOBALDEPTH.
         assert (is_some (not_empty_mmap f l))
     end.
       apply not_empty_mmap_is_some.
-      eapply list_forall_imply; eauto.
+      eapply list_forall_imply; [|eauto].
       intros. simpl.
       destruct a as ([|?|?],?); simpl in *; auto; compute in H0; inv H0.
     inv H0. simpl.

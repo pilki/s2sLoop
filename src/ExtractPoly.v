@@ -1,3 +1,4 @@
+Add LoadPath "../from_compcert".
 Require Import Libs.
 Require Import Polyhedra.
 Require Import Loops.
@@ -500,9 +501,9 @@ Module Extract (Import M:BASEMEM(ZNum))
     induction' la as [|a la]; destruct' lb as [|b lb]; intros * IN; simpl in *; clean.
     Case "cons a la"; SCase "cons b lb".
       destruct IN.
-      exists a b; auto.
+      exists a, b; auto.
       edestruct IHla as [a' [b' [?[? ?]]]]; eauto.
-      exists a' b'; auto.
+      exists a', b'; auto.
   Qed.
     
   Lemma snoc_inj A l1 l2 (a:A):
@@ -1091,8 +1092,8 @@ Module Extract (Import M:BASEMEM(ZNum))
     intros ESL.
     induction' ESL; simpl; intro INF; auto.
     Case "ESLI2_cons".
-      constructor'.
-      NSCase "Head".
+      constructor.
+      SCase "Head".
         eapply Permutation_Forall;[|eauto].
         subst.
         rewrite map_map.
@@ -1107,7 +1108,7 @@ Module Extract (Import M:BASEMEM(ZNum))
           rewrite in_map_iff in IN. destruct IN as [?[? ?]].
           subst. unfold first_dim_gt.
           destruct x0. simpl. constructor; assumption.
-      NSCase "Tail".
+      SCase "Tail".
         apply IHESL. unfold Zsucc. lia.
   Qed.
 

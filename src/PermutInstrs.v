@@ -1,3 +1,4 @@
+Add LoadPath "../from_compcert".
 Require Import Libs.
 Require Import Errors.
 Require Import Polyhedra.
@@ -129,17 +130,17 @@ Module Permut (Import M:BASEMEM(ZNum))
       rewrite EqA_memory_unfold.
       split'.
       SCase "left".
-        apply write_keep_layout in H5. eauto with memory.
+        apply write_keep_layout in H3. eauto with memory.
       SCase "right".
         intros.
         dest ci == ciw; subst.
         SSCase "ci = ciw".
           pose proof (rws _ _ ciw v H) as RWS.
           unfold read_write in RWS.
-          rewrite H5 in RWS. rewrite H4 in RWS. simpl_do in *. assumption.
+          rewrite H3 in RWS. rewrite H4 in RWS. simpl_do in *. assumption.
         SSCase "ci <> ciw".
           eapply rwo in H4; eauto.
-          eapply rwo in H5; eauto.
+          eapply rwo in H3; eauto.
           assert (read mem1 ci = read mem1' ci) by auto with memory.
           congruence.
      Case "right".
@@ -242,7 +243,7 @@ Module Permut (Import M:BASEMEM(ZNum))
   Proof.
     intros.
     edestruct Permutation_cons_exists_aux as [l21 [l22 EQ]]; eauto.
-    exists l21 l22; split; auto.
+    exists l21, l22; split; auto.
     subst. eapply Permutation_cons_app_inv; eauto.
   Qed.
 
@@ -1782,7 +1783,7 @@ Opaque validate_one_loc.
     exists (a0 :: a :: la); split; auto.
     apply perm_swap.
 
-    specialize (IHPERM1 A f (a :: la) eq_refl).
+    specialize (IHPERM2 A f (a :: la) eq_refl).
     destruct IHPERM1 as [la1 [? ?]].
     subst.
     specialize (IHPERM2 A f la1 eq_refl).

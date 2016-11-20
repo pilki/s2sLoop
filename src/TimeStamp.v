@@ -1,3 +1,7 @@
+Add LoadPath "../from_compcert".
+Require Import Coq.Relations.Relation_Definitions.
+Require Import Coq.Classes.RelationClasses.
+
 (* The polyhedral language *)
 Require Import Libs.
 Require Import Errors.
@@ -12,6 +16,7 @@ Require Import Bounds.
 Require Import BoxedPolyhedra.
 Require Import Psatz.
 Require Import PolyBase.
+Require Import Setoid.
 Open Scope string_scope.
 (*Set Implicit Arguments.*)
 Open Scope Z_scope.
@@ -96,6 +101,8 @@ Proof.
     revert dependent l1; induction H1; intros; inv EQxy; auto with timestamp.
 Qed.
 
+
+
 Add Parametric Morphism : time_stamp_eq with 
   signature time_stamp_eq ==> time_stamp_eq ==> iff as TSE_TSE.
 Proof.
@@ -158,11 +165,11 @@ Proof.
   clear l1. revert H0.
   induction l2; auto.
   intro IN.
-  destruct IN.
-    subst; exists (@nil A) l2; auto.
+  destruct IN. subst.
+    subst; exists (@nil A); exists l2; auto.
     edestruct IHl2 as [l21 [l22 ?]]; auto.
     subst.
-    exists (a0::l21) l22; auto.
+    exists (a0::l21); exists l22; auto.
 Qed.
 
 

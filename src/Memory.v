@@ -1,3 +1,4 @@
+Add LoadPath "../from_compcert".
 Require Import Libs.
 (*Require Import Floats.*)
 Require Import AST.
@@ -78,7 +79,7 @@ Module Type BASEMEM(N:NUMERICAL).
   Parameter same_memory_layout: relation Memory.
 
   Declare Instance Equiv_smt: Equivalence same_memory_layout.
-
+  
 
   Parameter read: Memory -> Cell_Id Num -> option Value.
 
@@ -509,6 +510,10 @@ Module BmemI2Z(BMI: BASEMEM(IntNum)) <: BASEMEM(ZNum).
   Definition same_memory_layout : relation Memory := BMI.same_memory_layout.
 
   Global Instance Equiv_smt: Equivalence same_memory_layout.
+  Proof.
+    unfold same_memory_layout.
+    apply BMI.Equiv_smt.
+  Qed.    
 
   Definition read m ci : option Value :=
     do ci' <- z2icell ci;

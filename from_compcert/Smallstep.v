@@ -19,6 +19,9 @@
   the one-step transition relations that are used to specify
   operational semantics in small-step style. *)
 
+Add LoadPath "../from_compcert".
+Add LoadPath "../src".
+
 Require Import Wf.
 Require Import Wf_nat.
 Require Import Coqlib.
@@ -770,7 +773,7 @@ Qed.
 
 CoFixpoint build_traceinf' (s1: state) (t1: trace) (ST: star step ge s0 t1 s1) : traceinf' :=
   match reacts' ST with
-  | existT s2 (exist t2 (conj A B)) =>
+  | existT _ s2 (exist _ t2 (conj A B)) =>
       Econsinf' t2 
                 (build_traceinf' (star_trans ST A (refl_equal _)))
                 B

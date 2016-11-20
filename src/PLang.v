@@ -1,4 +1,8 @@
 (* The polyhedral language *)
+Add LoadPath "../from_compcert".
+Require Import Coq.Relations.Relation_Definitions.
+Require Import Coq.Classes.RelationClasses.
+
 Require Import Libs.
 Require Import Errors.
 Require Import Polyhedra.

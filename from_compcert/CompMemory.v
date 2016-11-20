@@ -1026,7 +1026,7 @@ Proof.
   unfold update. destruct (zeq b' b). subst b'.
   destruct H. congruence.
   destruct (zle n 0). 
-  rewrite (nat_of_Z_neg _ z). auto.
+  rewrite (nat_of_Z_neg _ l). auto.
   destruct H. omegaContradiction.
   apply getN_setN_outside. rewrite encode_val_length. rewrite <- size_chunk_conv.
   rewrite nat_of_Z_eq. auto. omega. 
@@ -1110,7 +1110,7 @@ Proof.
     assert (length mvl = sz). 
       generalize (encode_val_length chunk v). rewrite <- H1. rewrite SZ. 
       simpl; congruence.
-    rewrite H4. rewrite size_chunk_conv in z0. omega. 
+    rewrite H4. rewrite size_chunk_conv in g0. omega. 
   contradiction.
 
 (* 3. ofs > ofs':
@@ -1128,8 +1128,8 @@ Proof.
     rewrite setN_outside. rewrite update_s. auto. omega.
   assert (~memval_valid_first (c' ofs)).
     rewrite SZ' in PSHAPE. simpl in PSHAPE. inv PSHAPE. 
-    apply H4. apply getN_in. rewrite size_chunk_conv in z. 
-    rewrite SZ' in z. rewrite inj_S in z. omega. 
+    apply H4. apply getN_in. rewrite size_chunk_conv in g. 
+    rewrite SZ' in g. rewrite inj_S in g. omega. 
   contradiction.
 Qed.
 
@@ -2879,17 +2879,17 @@ Lemma free_right_inject:
 Proof.
   intros. inversion H. constructor.
 (* inj *)
-  eapply free_right_inj; eauto.
+  - eapply free_right_inj; eauto.
 (* freeblocks *)
-  auto.
+  - auto.
 (* mappedblocks *)
-  eauto with mem.
+  - eauto with mem.
 (* no overlap *)
-  auto.
+  - auto.
 (* range offset *)
-  auto.
+  - auto.
 (* range blocks *)
-  intros. rewrite (bounds_free _ _ _ _ _ H0). eauto.
+  - intros. rewrite (bounds_free _ _ _ _ _ H0). eauto.
 Qed.
 
 Lemma perm_free_list:

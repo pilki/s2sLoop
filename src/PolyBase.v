@@ -1,9 +1,13 @@
+Add LoadPath "../from_compcert".
 Require Import Coqlibext.
 Require Import Do_notation.
 Require Import ClassesAndNotations.
 Require Import Psatz.
 Require Import Program.
 Require Import ArithClasses.
+Require Import Coq.Relations.Relation_Definitions.
+Require Import Coq.Classes.RelationClasses.
+
 Set Implicit Arguments.
 
 (* move to lib COQLIBEXT *)
@@ -142,7 +146,8 @@ Notation "p1 ⊂ p2" := (Pol_Included p1 p2) (at level 70). (* \subset *)
 Lemma Pol_Included_canonize: forall pol,
   pol ⊂ (Pol_canonize pol).
 Proof.
-  unfold*.
+  autounfold with * in *. unfold Pol_In.
+
   induction pol; simpl; intros v LF.
   constructor.
   inversion LF as [|? ? SATIS LF']. subst. clear LF.
@@ -152,7 +157,8 @@ Proof.
 
   unfold satisfy_constraint in *.
   repeat (constructor; simpl); auto.
-  simpl_vect. simpl. lia.
+  simpl_vect. simpl.
+  omega.
 
   lia.
 Qed.
@@ -160,7 +166,7 @@ Qed.
 Lemma Pol_canonize_Included: forall pol,
   Pol_canonize pol ⊂ pol.
 Proof.
-  unfold*.
+  unfold*. unfold Pol_In.
   induction pol; simpl; intros v LF.
   constructor.
   destruct a. simpl in *. destruct constr_comp0; auto.
@@ -326,8 +332,8 @@ Program Definition
 Next Obligation.
   unfold Pol_Empty. intros v IN.
   symmetry in Heq_anonymous. symmetry in Heq_anonymous0. symmetry in Heq_anonymous1.
-  pose proof (Pol_Included_mul_each_constraint wit Heq_anonymous IN).
-  apply (Pol_add_all_constraints_correct Heq_anonymous0) in H.
+  pose proof (Pol_Included_mul_each_constraint wit Heq_anonymous0 IN).
+  apply (Pol_add_all_constraints_correct Heq_anonymous1) in H.
   eapply Constr_check_contradiction_correct; eauto.
 Qed.
 
@@ -420,8 +426,9 @@ Program Definition Pol_Canonized_dec p : Decidable (Pol_Canonized p) :=
     | false => right _
   end.
 Next Obligation.
-  unfold*.
-  eapply list_forallb_list_forall; eauto.
+  unfold *.
+  Check list_forallb_list_forall.
+  eapply list_forallb_list_forall ; [| rewrite Heq_anonymous; eauto].
   simpl. intros. destruct a. simpl in *. dest ==; clean.
 Qed.
 Next Obligation.
@@ -644,7 +651,8 @@ Proof.
   intro IN.
   apply Pol_intersection_Included_l in IN.
   unfold Pol_In in *.
-  eapply list_forall_map_list_forall; eauto.
+  eapply list_forall_map_list_forall ; [| apply IN].
+
   intros.
   erewrite Constr_translate_l_correct. eauto.
 Qed.
@@ -656,7 +664,8 @@ Proof.
   intro IN.
   apply Pol_intersection_Included_r in IN.
   unfold Pol_In in *.
-  eapply list_forall_map_list_forall; eauto.
+  eapply list_forall_map_list_forall; [|apply IN].
+
   intros.
   erewrite Constr_translate_r_correct. eauto.
 Qed.
@@ -669,11 +678,11 @@ Proof.
   apply Pol_Included_intersertion.
 
   unfold Pol_In in *.
-  eapply list_forall_list_forall_map; eauto.
+  eapply list_forall_list_forall_map; [|apply IN1].
   intros. erewrite <- Constr_translate_l_correct; auto.
 
   unfold Pol_In in *.
-  eapply list_forall_list_forall_map; eauto.
+  eapply list_forall_list_forall_map; [|apply IN2].
   intros. erewrite <- Constr_translate_r_correct; auto.
 Qed.
 Hint Resolve Pol_In_In_prod Pol_In_prod_In_r Pol_In_prod_In_l: pol.
@@ -892,8 +901,8 @@ Next Obligation.
 
   rewrite concat_Vprod in H2, H0.
   repeat rewrite Vprod_all_0_except in H2, H0.
-  simpl Aadd in *. 
-  lia.
+  simpl Aadd in *.
+  destruct (Vnth v1 n) ; destruct (Vnth v2 n); lia.
 Qed.
 
 
@@ -977,10 +986,10 @@ Proof.
   unfold Pol_In.
   intro IN.
   unfold extend_polyhedron.
-  constructor'.
-  NCase "Head".
+  constructor.
+  Case "Head".
     red. simpl. simpl_vect. reflexivity.
-  NCase "Tail".
+  Case "Tail".
   eapply list_forall_list_forall_map; [|eauto].
   intros.
   clear IN.

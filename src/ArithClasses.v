@@ -693,7 +693,7 @@ Proof.
   rewrite IHv2. simpl_vect. reflexivity.
 Qed.
 
-Hint Rewrite <- Vopp_prod_distr_r Vopp_prod_distr_l: vect.
+Hint Rewrite <- @Vopp_prod_distr_r @Vopp_prod_distr_l: vect.
 
 
 Program Definition Vmul a v : Vector:=
@@ -731,7 +731,7 @@ Proof.
 Qed.
 
 
-Hint Rewrite <- Vmul_prod_distr_l Vmul_prod_distr_r: vect.
+Hint Rewrite <- @Vmul_prod_distr_l @Vmul_prod_distr_r: vect.
 
 
 
@@ -782,7 +782,7 @@ Proof.
   repeat rewrite (Vprod_comm v3). apply Vprod_add_distr_l.
 Qed.
 
-Hint Rewrite Vprod_add_distr_l Vprod_add_distr_r: vect.
+Hint Rewrite @Vprod_add_distr_l @Vprod_add_distr_r: vect.
 
 
 
@@ -838,10 +838,10 @@ Notation "v1 ⊹ v2" := (Vadd v1 v2) (at level 50).
   Qed.
 
 Hint Unfold Vprod Vrepeat Vopp Vmul Vadd:vect.
-Hint Rewrite repeat_length Vopp_involutive Vprod_add_distr_l Vprod_add_distr_r: vect.
-Hint Rewrite <- Vopp_prod_distr_r Vopp_prod_distr_l
-  Vmul_prod_distr_l Vmul_prod_distr_r Vprod_add_distr_l
-  Vprod_add_distr_r: vect.
+Hint Rewrite @repeat_length @Vopp_involutive @Vprod_add_distr_l @Vprod_add_distr_r: vect.
+Hint Rewrite <- @Vopp_prod_distr_r @Vopp_prod_distr_l
+  @Vmul_prod_distr_l @Vmul_prod_distr_r @Vprod_add_distr_l
+  @Vprod_add_distr_r: vect.
 
 Ltac dest_vect v :=
   let Lv := fresh "L" v in
@@ -870,7 +870,7 @@ Proof.
   simpl in *. simpl_vect. auto.
 Qed.
 
-Hint Rewrite Vprod_V0_l: vect.
+Hint Rewrite @Vprod_V0_l: vect.
 
 Lemma Vprod_V0_r `{Numerical Num} n (v: Vector Num n): 〈v, V0 n〉= 0.
 Proof.
@@ -879,7 +879,7 @@ Proof.
   simpl in *. simpl_vect. auto.
 Qed.
 
-Hint Rewrite Vprod_V0_r: vect.
+Hint Rewrite @Vprod_V0_r: vect.
 
 Program Definition Vmap {A B:Type} {n} (f:A -> B) (v: Vector A n) : Vector B n :=
   List.map f v.
@@ -936,7 +936,7 @@ Lemma Vprod_Vcons `{Numerical Num} n (x y: Num) (v1 v2: Vector Num n):
 Proof.
   reflexivity.
 Qed.
-Hint Rewrite Vprod_Vcons: vect.
+Hint Rewrite @Vprod_Vcons: vect.
 
 
 Program Definition Vhd {n} `(v: Vector A (S n)): A :=
@@ -994,7 +994,7 @@ Notation "v1 +++ v2" := (Vapp v1 v2) (at level 65, right associativity).
 Lemma PVeq_Veq_rew: forall A n (v1 v2 : Vector A n), `v1 = `v2 -r> v1 = v2.
 Proof. constructor. apply PVeq_Veq. Qed.
 
-Hint Rewrite PVeq_Veq_rew: clean.
+Hint Rewrite @PVeq_Veq_rew: clean.
 
 
 Lemma V0_Vapp `{Numerical Num} n (v: Vector Num n) :
@@ -1003,7 +1003,7 @@ Proof.
   apply PVeq_Veq.
   unfold V0, Vapp. simpl. reflexivity.
 Qed.
-Hint Rewrite V0_Vapp: vect.
+Hint Rewrite @V0_Vapp: vect.
 
 
 
@@ -1063,7 +1063,7 @@ Proof.
     destruct v2; inv Lv2.
     simpl. simpl_vect. f_equal. eauto.
 Qed.
-Hint Rewrite Vprod_snoc: vect.
+Hint Rewrite @Vprod_snoc: vect.
 
 Lemma PVprod_repeat_0: forall n v, 
   PVprod (repeat n 0%Z) v = 0%Z.
@@ -1071,7 +1071,7 @@ Proof.
   induction' n; intros; simpl; auto.
   destruct v; auto.
 Qed.
-Hint Rewrite PVprod_repeat_0: vect.
+Hint Rewrite @PVprod_repeat_0: vect.
 
 
 Program Definition Vdrop {A p} n (v: Vector A p) : Vector A (p - n) :=
@@ -1138,7 +1138,7 @@ Proof.
   intros.
   apply PVeq_Veq. simpl. apply list_take_drop.
 Qed.
-Hint Rewrite Vapp_take_drop: vect.
+Hint Rewrite @Vapp_take_drop: vect.
     
 
 Lemma Vtake_p_app: forall A n p (vn : Vector A n) (vp: Vector A p),
@@ -1159,7 +1159,7 @@ Proof.
   apply list_drop_app.
 Qed.
 
-Hint Rewrite Vtake_p_app Vdrop_p_app: vect.
+Hint Rewrite @Vtake_p_app @Vdrop_p_app: vect.
 
 
 
@@ -1226,8 +1226,7 @@ Qed.
       rewrite <- (Vcons_hd_tail v). simpl_vect. Vdestruct v as z1 v.
       rewrite Vprod_Vcons. rewrite Vprod_V0_l. simpl_vect. reflexivity.
     Case "S dim"; SCase "S n".
-      Vdestruct v as z1 v. simpl_vect. rewrite Vprod_Vcons. simpl_vect.
-      auto.
+      Vdestruct v as z1 v. simpl_vect. auto. 
   Qed.
 
 
@@ -1247,7 +1246,7 @@ Proof.
   intros. subst. reflexivity.
 Qed.
 
-Hint Rewrite Vcast_id: vect.
+Hint Rewrite @Vcast_id: vect.
 
 Lemma Vcast_access: forall `{Inhabited A} n p EQUAL (v: Vector A n) i,
   Vnth (Vcast p EQUAL v) i = Vnth v i.
@@ -1255,7 +1254,7 @@ Proof.
   intros. unfold Vnth. rewrite Vcast_id. reflexivity.
 Qed.
 
-Hint Rewrite Vcast_access: vect.
+Hint Rewrite @Vcast_access: vect.
 
 Lemma Vcast_JMeq: forall A n p EQUAL (v: Vector A n), (Vcast p EQUAL v) ~= v.
 Proof.
@@ -1281,7 +1280,7 @@ Proof.
     simpl. simpl_vect. f_equal. eauto.
 Qed.
 
-Hint Rewrite Vprod_app: vect.
+Hint Rewrite @Vprod_app: vect.
 
 
 Lemma Vnth_app_1: forall `{Inhabited A} (n p: nat) (v1: Vector A n) (v2: Vector A p),
@@ -1308,8 +1307,8 @@ Proof.
   induction' v1 as [|x v1]; simpl in *; auto.
 Qed.
 
-Hint Rewrite Vnth_app_1 using omega: vect.
-Hint Rewrite Vnth_app_2: vect.
+Hint Rewrite @Vnth_app_1 using omega: vect.
+Hint Rewrite @Vnth_app_2: vect.
 
 Lemma Vnth_V0: forall n p, Vnth (V0 n) p = 0%Z.
 Proof.
@@ -1337,7 +1336,7 @@ Proof.
   dest_vects. intros. apply PVeq_Veq. reflexivity.
 Qed.
 
-Hint Rewrite Vnth_V0 Vnth_cons @Vhd_cons Vtail_cons: vect. 
+Hint Rewrite @Vnth_V0 @Vnth_cons @Vhd_cons @Vtail_cons: vect. 
 
 
 
@@ -1433,7 +1432,7 @@ Proof.
   induction n; destruct x; simpl; auto.
 Qed.
 
-Hint Rewrite @nth0_Vhd nth_vect0 nth_repeat: vect.
+Hint Rewrite @nth0_Vhd nth_vect0 @nth_repeat: vect.
 
 
 Lemma Mtranspose_nth_pth `{Inhab_A: Inhabited A} {n p} (m: Matrix A n p):
@@ -1515,7 +1514,7 @@ Proof.
   reflexivity.
 Qed.
 
-Hint Rewrite Vprod_Vcons Vprod_Vcons_Z: vect.
+Hint Rewrite @Vprod_Vcons @Vprod_Vcons_Z: vect.
 
 Definition Mmul_transp `{Numerical Num} {n m p} (m1: Matrix Num n m)
   (m2: Matrix Num p m) : Matrix Num n p :=
@@ -1556,7 +1555,7 @@ Proof.
   dest_vects. reflexivity.
 Qed.
 
-Hint Rewrite Vmap_cons Mprod_vect_cons: vect.
+Hint Rewrite @Vmap_cons @Mprod_vect_cons: vect.
 
 Lemma Vect_0 {A} (v : Vector A 0):
   v = (exist (fun l : Pseudo_Vector A => length l = 0%nat) 
@@ -1573,7 +1572,7 @@ Qed.
 Lemma Mmul_prod_assoc: forall n m p (m1: ZMatrix n m)
   (m2: ZMatrix m p) (v: ZVector p),
   (Mmul m1 m2) × v = m1 × (m2 × v).
-Proof.
+Proof. 
   induction' n as [|n].
   Case "O".
     intros. unfold Matrix in *. dest_vects.
@@ -1584,7 +1583,7 @@ Proof.
     subst.
     specialize (IHn _ _ m1 m2 v).
     unfold Mmul, Mmul_transp in *.
-    simpl_vect. f_equal; auto. 
+    simpl_vect in *. f_equal; auto. 
 
     clear'.
     revert dependent p.
@@ -1592,7 +1591,7 @@ Proof.
     SCase "O".
       rewrite (Vect_0 v). unfold Vprod. simpl.
       unfold Matrix in *. clear'.
-      dest_vects. simpl. clear'. revert m2.
+      dest_vects. simpl. clear'.  simpl. revert m2.
       induction' hd1 as [|v hd1]; destruct m2; simpl; auto.
       rewrite <- IHhd1. dest_vects. destruct v0; simpl in *; auto. lia.
     SCase "S p".
@@ -1704,7 +1703,7 @@ Qed.
      simpl_vect. repeat rewrite Vprod_app. simpl_vect. reflexivity.
    Qed.
 
-   Hint Rewrite V_insert_middle_ok_r V_insert_middle_ok_l: vect.
+   Hint Rewrite @V_insert_middle_ok_r @V_insert_middle_ok_l: vect.
 
 
    Definition V_insert_middle0 `{Numerical A} {dim1 dim2 dim3: nat} (v13: Vector A (dim1 + dim3))
@@ -1719,8 +1718,7 @@ Qed.
      〈v1,v1'〉+〈v3,v3'〉.
    Proof.
      unfold V_insert_middle0.
-     rewrite V_insert_middle_ok_l. simpl_vect.
-     rewrite Vprod_V0_l. simpl_vect. reflexivity.
+     rewrite V_insert_middle_ok_l. simpl_vect. reflexivity.
    Qed.
 
    Lemma V_insert_middle0_ok_r `{Numerical A} (dim1 dim2 dim3: nat)
@@ -1731,11 +1729,10 @@ Qed.
      〈v1',v1〉+〈v3',v3〉.
    Proof.
      unfold V_insert_middle0.
-     rewrite V_insert_middle_ok_r. simpl_vect.
-     rewrite Vprod_V0_r. simpl_vect. reflexivity.
+     rewrite V_insert_middle_ok_r. simpl_vect.  reflexivity.
    Qed.
   
-   Hint Rewrite V_insert_middle_ok_r V_insert_middle_ok_l: vect.
+   Hint Rewrite @V_insert_middle_ok_r @V_insert_middle_ok_l: vect.
 
 
 Section INTZ.
