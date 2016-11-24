@@ -1,3 +1,4 @@
+Add LoadPath "../from_compcert".
 Require Import Libs.
 Require Import Errors.
 Require Import Polyhedra.
@@ -23,7 +24,7 @@ Open Scope string_scope.
 (*Set Implicit Arguments.*)
 Open Scope Z_scope.
 
-
+Set Implicit Arguments.
 
 Fixpoint Midentity `{Numerical Num} n : Matrix Num n n :=
   match n with
@@ -77,17 +78,17 @@ Fixpoint make_Expression n (pexp: PExpression): option (Expression n) :=
   match pexp with
   | PExp_const l =>
     do v <- make_vector (S n) l;
-    Some (Exp_const n v)
+    Some (Exp_const v)
   | PExp_loc aid l =>
     do v <- mmap (make_vector (S n)) l;
-    Some (Exp_loc n (aid, v))
+    Some (Exp_loc (aid, v))
   | PExp_bin pl opp pr =>
     do l <- make_Expression n pl;
     do r <- make_Expression n pr;
-    Some (Exp_bin n l opp r)
+    Some (Exp_bin l opp r)
   | PExp_opp pe =>
     do e <- make_Expression n pe;
-    Some (Exp_opp n e)
+    Some (Exp_opp  e)
   end.
 
 
@@ -103,7 +104,7 @@ Definition make_Instruction (pinstr: PInstruction): option Instruction :=
   let 'Build_PInstruction pnargs (paid, pwloc) pb lvars bstring:= pinstr in
   do wlocs <- mmap (make_vector (S pnargs)) pwloc;
   do b <- make_Expression pnargs pb;
-  Some (Build_Instruction' pnargs (paid, wlocs) b lvars bstring).
+  Some (Build_Instruction' (paid, wlocs) b lvars bstring).
 
 Import SV.Per.Til.EP.L.
 Import T.

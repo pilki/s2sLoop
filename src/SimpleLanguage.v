@@ -1,3 +1,4 @@
+Add LoadPath "../from_compcert".
 Require Import Libs.
 (*Require Import Floats.*)
 Require Import AST.
@@ -11,6 +12,7 @@ Parameter ocaml_string: Type.
 Extract Constant ocaml_string =>
   "string".
 
+Set Implicit Arguments.
 
 Module BM := BMem(ZNum).
 

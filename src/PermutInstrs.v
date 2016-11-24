@@ -1773,23 +1773,23 @@ Opaque validate_one_loc.
   Proof.
     intro PERM.
     dependent induction PERM; destruct la; simpl in *; clean.
-    exists (@nil A). split; auto.
 
-    inv x. edestruct IHPERM as [la' [? ?]]; eauto.
-    subst.
-    exists (a::la'); split; auto.
+    - exists (@nil A). split; auto.
 
-    inv x. destruct la; clean. simpl in H1. inv H1.
-    exists (a0 :: a :: la); split; auto.
-    apply perm_swap.
+    - inv x. edestruct IHPERM as [la' [? ?]]; eauto.
+      subst.
+      exists (a::la'); split; auto.
 
-    specialize (IHPERM2 A f (a :: la) eq_refl).
-    destruct IHPERM1 as [la1 [? ?]].
-    subst.
-    specialize (IHPERM2 A f la1 eq_refl).
-    destruct IHPERM2 as [la2 [? ?]]. subst.
-    exists la2; split; auto.
-    transitivity la1; auto.
+    - inv x. destruct la; clean. simpl in H1. inv H1.
+      exists (a0 :: a :: la); split; auto.
+      apply perm_swap.
+
+    - destruct IHPERM1 as [la1 [? PERM3]].
+      subst.
+      specialize (IHPERM2 A f la1 eq_refl).
+      destruct IHPERM2 as [la2 [? ?]]. subst.
+      exists la2; split; auto.      
+      transitivity la1; auto.
   Qed.
     
   Inductive __no_subst__ (H: Prop) : Prop :=
