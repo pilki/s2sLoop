@@ -427,7 +427,6 @@ Program Definition Pol_Canonized_dec p : Decidable (Pol_Canonized p) :=
   end.
 Next Obligation.
   unfold *.
-  Check list_forallb_list_forall.
   eapply list_forallb_list_forall ; [| rewrite Heq_anonymous; eauto].
   simpl. intros. destruct a. simpl in *. dest ==; clean.
 Qed.
