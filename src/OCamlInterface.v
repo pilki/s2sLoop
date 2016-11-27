@@ -167,7 +167,8 @@ with make_statement_list n pstlst : option (statement_list n) :=
  Definition make_Program pprog : option Program :=
    do stlst <- make_statement_list pprog.(Pprog_nbr_global_parameters) pprog.(Pprog_main);
    Some {| prog_nbr_global_parameters := pprog.(Pprog_nbr_global_parameters);
-        prog_main := stlst|}.
+           prog_main := stlst|}.
+
 
 
 

@@ -5,3 +5,5 @@
 .DS_Store
 .lia.cache
 _build
+\#*\#
+\.\#*

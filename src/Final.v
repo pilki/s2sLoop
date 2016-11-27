@@ -1,3 +1,4 @@
+Add LoadPath "../from_compcert".
 Require Import Libs.
 Require Import Errors.
 Require Import Polyhedra.
